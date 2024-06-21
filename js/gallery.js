@@ -91,7 +91,7 @@ function onGetProduct(evt) {
   const parent = evt.target.classList.contains("gallery-image");
   const sourcePhoto = evt.target.dataset.source;
   const instance = basicLightbox.create(
-    ` <div class="modal-img">
+    ` <div class="modal">
      <img src="${sourcePhoto}" width="1120" height="640">
      </div>
   `
@@ -100,9 +100,8 @@ function onGetProduct(evt) {
   instance.show();
   evt.preventDefault();
 
-  const clickclose = document.querySelector(`.modal-img`);
+  const clickclose = document.querySelector(`.modal`);
   clickclose.addEventListener(`click`, onclickclosePhoto);
-
   function onclickclosePhoto() {
     instance.close();
   }
