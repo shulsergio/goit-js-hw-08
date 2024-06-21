@@ -64,12 +64,12 @@ const images = [
   },
 ];
 
-const gallery = document.querySelector(".main-list");
+const newGallery = document.querySelector(".main-list");
 
-function onCreateGllery() {
-  gallery
+function onCreateGallery(arr) {
+  return arr
     .map(({ preview, original, description }) => {
-      `<li class="gallery-item">
+      return `<li class="gallery-item">
         <a class="gallery-link" href=${original}>
           <img
             class="gallery-image"
@@ -78,9 +78,35 @@ function onCreateGllery() {
             alt=${description}
           />
         </a>
-      </li>;`;
+      </li>`;
     })
     .join("");
 }
 
-gallery.insertAdjacentElement("beforeend", onCreateGllery);
+function onGetProduct(evt) {
+  evt.preventDefault();
+  if (evt.currentTarget === evt.target) {
+    return;
+  }
+  const parent = evt.target.classList.contains("gallery-image");
+  const sourcePhoto = evt.target.dataset.source;
+  const instance = basicLightbox.create(
+    ` <div class="modal-img">
+     <img src="${sourcePhoto}" width="1120" height="640">
+     </div>
+  `
+  );
+
+  instance.show();
+  evt.preventDefault();
+
+  const clickclose = document.querySelector(`.modal-img`);
+  clickclose.addEventListener(`click`, onclickclosePhoto);
+
+  function onclickclosePhoto() {
+    instance.close();
+  }
+}
+
+newGallery.insertAdjacentHTML("beforeend", onCreateGallery(images));
+newGallery.addEventListener("click", onGetProduct);
